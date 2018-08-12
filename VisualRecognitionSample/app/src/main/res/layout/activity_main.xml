@@ -5,25 +5,29 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:padding="16dp"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <LinearLayout
         android:id="@+id/ll_content"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="URL (must end with jpg/png):"/>
+            android:layout_marginStart="5dp"
+            android:maxLines="2"
+            android:text="URL (must end with jpeg/jpg/png):"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/et_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter image url here..."/>
+            android:hint="Enter image url here..."
+            android:lines="4" />
 
         <Button
             android:id="@+id/btn_fetch_results"
@@ -31,12 +35,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@color/colorPrimaryDark"
-            android:textColor="@android:color/white"
-            android:text="Fetch Results"/>
+            android:text="Fetch Results"
+            android:textColor="@android:color/white" />
     </LinearLayout>
+
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true" />
 </RelativeLayout>
