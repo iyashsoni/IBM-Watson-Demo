@@ -28,7 +28,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     // IBM WATSON VISUAL RECOGNITION RELATED
     private final String API_KEY = "<YOUR-API-KEY-HERE>";
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             VisualRecognition visualRecognition = new VisualRecognition("2018-03-19", options);
             ClassifyOptions classifyOptions = new ClassifyOptions.Builder()
                     .url(etUrl.getText().toString())
-                    .classifierIds(Collections.singletonList("default"))
+                    .classifierIds(Collections.singletonList("explicit"))
                     .threshold(threshold)
                     .owners(Collections.singletonList("me"))
                     .build();
@@ -67,6 +67,18 @@ public class MainActivity extends AppCompatActivity {
     private void goToNext(String url, List<ClassResult> resultList) {
         progressBar.setVisibility(View.GONE);
         content.setVisibility(View.VISIBLE);
+
+        // Checking if image has a class named "explicit". If yes, then reject and show an error msg as a Toast
+        for (ClassResult result : resultList) {
+            if(result.getClassName().equals("explicit")) {
+                Toast.makeText(this, "NOT ALLOWED TO UPLOAD EXPLICIT CONTENT", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
+        Toast.makeText(this, "IMAGE DOESN'T CONTAIN ANY EXPLICIT CONTENT. OK TO PROCEED!", Toast.LENGTH_LONG).show();
+
+        // No Explicit content found, go ahead with processing results and moving to Results Activity
         ArrayList<VisualRecognitionResponseModel> classes = new ArrayList<>();
         for (ClassResult result : resultList) {
             VisualRecognitionResponseModel model = new VisualRecognitionResponseModel();
@@ -74,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             model.setScore(result.getScore());
             classes.add(model);
         }
-        Intent i = new Intent(MainActivity.this, SecondActivity.class);
+        Intent i = new Intent(HomeActivity.this, ResultsActivity.class);
         i.putExtra("url", url);
         i.putParcelableArrayListExtra("classes", classes);
         startActivity(i);
@@ -111,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                Toast.makeText(MainActivity.this, "Please make sure image URL is proper!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, "Please make sure image URL is proper!", Toast.LENGTH_SHORT).show();
             }
         });
     }

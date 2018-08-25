@@ -13,7 +13,7 @@ import com.yashsoni.visualrecognitionsample.models.VisualRecognitionResponseMode
 
 import java.util.ArrayList;
 
-public class SecondActivity extends AppCompatActivity {
+public class ResultsActivity extends AppCompatActivity {
     String url = "";
     ArrayList<VisualRecognitionResponseModel> classes = new ArrayList<>();
 
